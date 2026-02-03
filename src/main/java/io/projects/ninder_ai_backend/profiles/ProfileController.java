@@ -2,6 +2,7 @@ package io.projects.ninder_ai_backend.profiles;
 
 import io.projects.ninder_ai_backend.conversations.ConversationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ public class ProfileController {
 
     @Autowired
     public final ConversationRepository conversationRepository;
+    @Autowired
     public final ProfileRepository profileRepository;
 
     public ProfileController(ConversationRepository conversationRepository, ProfileRepository profileRepository) {
@@ -22,7 +24,7 @@ public class ProfileController {
         this.profileRepository = profileRepository;
     }
 
-
+    @CrossOrigin(origins = "*")
     @GetMapping("/getProfiles")
     public Map<String, Object> getAllSavedConversations(){
 
@@ -34,6 +36,11 @@ public class ProfileController {
 
         return map ;
 
+    }
+    @CrossOrigin(origins="*")
+    @GetMapping("/api/profiles/random")
+    public Profile getRandomProfile(){
+        return profileRepository.getRandomProfile();
     }
 
 }

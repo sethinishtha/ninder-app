@@ -4,7 +4,6 @@ import io.projects.ninder_ai_backend.profiles.Profile;
 import io.projects.ninder_ai_backend.profiles.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,6 +15,7 @@ public class ConversationController {
 
     @Autowired
     public final ConversationRepository conversationRepository;
+    @Autowired
     public final ProfileRepository profileRepository;
 
     public ConversationController(ConversationRepository conversationRepository,ProfileRepository profileRepository){
@@ -23,6 +23,7 @@ public class ConversationController {
         this.profileRepository=profileRepository;
     }
 
+    @CrossOrigin(origins="*")
     @PostMapping("/conversations")
     public Conversation createConverstion(@RequestBody ConversationRequest request){
 
@@ -44,6 +45,7 @@ public class ConversationController {
         return conversation;
     }
 
+    @CrossOrigin(origins="*")
     @GetMapping("/getConverstions/{conversationsId}")
     public List<Conversation> getAllSavedConversations(@PathVariable String conversationsId){
 
@@ -53,6 +55,7 @@ public class ConversationController {
 
     }
 
+    @CrossOrigin(origins="*")
     @PostMapping("/conversations/{conversationId}")
     public void addMessagetoConverstion(@PathVariable String conversationId, @RequestBody ChatMessage chat) {
 

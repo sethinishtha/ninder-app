@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface ProfileRepository extends MongoRepository<Profile,String> {
 
     @Aggregation(pipeline = {"{ $sample: { size: 1 } }"})
-    org.springframework.context.annotation.Profile getRandomProfile();
+    Profile getRandomProfile();
 }
