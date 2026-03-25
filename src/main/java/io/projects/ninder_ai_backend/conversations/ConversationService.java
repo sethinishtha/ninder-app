@@ -68,7 +68,7 @@ public class ConversationService {
                 """;
         SystemMessage systemMessage = new SystemMessage(systemMessageStr);
 
-        List<AbstractMessage> conversationMessages  = conversation.chatMessageList().stream().map(message -> {
+        List<AbstractMessage> conversationMessages  = conversation.messages().stream().map(message -> {
             if (message.senderProfileId().equals(profile.id())) {
                 return new AssistantMessage(message.messageText());
             } else {
@@ -82,7 +82,7 @@ public class ConversationService {
 
         Prompt prompt = new Prompt(allMessages);
         ChatResponse response = chatClient.call(prompt);
-        conversation.chatMessageList().add(new ChatMessage(
+        conversation.messages().add(new ChatMessage(
                 response.getResult().getOutput().getContent(),
                 profile.id(),
                 LocalDateTime.now()

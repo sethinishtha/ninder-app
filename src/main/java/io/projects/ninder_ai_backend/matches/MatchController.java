@@ -1,4 +1,4 @@
-package matches;
+package io.projects.ninder_ai_backend.matches;
 
 import io.projects.ninder_ai_backend.conversations.Conversation;
 import io.projects.ninder_ai_backend.conversations.ConversationRepository;
@@ -7,6 +7,7 @@ import io.projects.ninder_ai_backend.profiles.ProfileRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +16,21 @@ import java.util.UUID;
 @RestController
 public class MatchController {
 
+    @Autowired
+    private final ConversationRepository conversationRepository;
+    @Autowired
+    private final ProfileRepository profileRepository;
+    @Autowired
+    private final MatchRepository matchRepository;
 
-        private final ConversationRepository conversationRepository;
-        private final ProfileRepository profileRepository;
-        private final MatchRepository matchRepository;
 
-
-        public MatchController(ConversationRepository conversationRepository, ProfileRepository profileRepository, MatchRepository matchRepository) {
+    public MatchController(ConversationRepository conversationRepository, ProfileRepository profileRepository, MatchRepository matchRepository) {
             this.conversationRepository = conversationRepository;
             this.profileRepository = profileRepository;
             this.matchRepository = matchRepository;
-        }
+    }
 
-        public record CreateMatchRequest(String profileId) {}
+    public record CreateMatchRequest(String profileId) {}
 
         @CrossOrigin(origins = "*")
         @PostMapping("/api/matches/create")
@@ -59,4 +62,12 @@ public class MatchController {
         public List<Match> getAllMatches() {
             return matchRepository.findAll();
         }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/api/deleteAllMatches")
+    public String deleteAllMatches() {
+        matchRepository.deleteAll();
+        return "All matches deleted successfully.";
+    }
+
 }

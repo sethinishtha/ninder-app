@@ -1,4 +1,4 @@
-package matches;
+package io.projects.ninder_ai_backend.matches;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

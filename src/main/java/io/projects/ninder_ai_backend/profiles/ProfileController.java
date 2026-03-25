@@ -2,9 +2,12 @@ package io.projects.ninder_ai_backend.profiles;
 
 import io.projects.ninder_ai_backend.conversations.ConversationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.HashMap;
@@ -41,6 +44,17 @@ public class ProfileController {
     @GetMapping("/api/profiles/random")
     public Profile getRandomProfile(){
         return profileRepository.getRandomProfile();
+    }
+
+    @CrossOrigin(origins="*")
+    @GetMapping("/api/profiles/{id}")
+    public Profile getProfile(@PathVariable String id){
+        return profileRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Unable to find a profile with ID " + id
+                ));
+
     }
 
 }
